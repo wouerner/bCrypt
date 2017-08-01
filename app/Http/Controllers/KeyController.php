@@ -36,4 +36,11 @@ class KeyController extends Controller
         /* return [bin2hex($sig)]; */
         return ['privKey' => $privKey, 'pubKey' => $pubKey];
     }
+
+    public function assinar(Request $request) {
+        $texto = $request->input('texto');
+        $privKey = $request->input('privKey');
+
+        /* openssl_sign($str, $sig, $privKey, OPENSSL_ALGO_SHA256); */
+    }
 }

@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/gerar', 'KeyController@gerar');
+Route::post('/assinar', 'KeyController@assinar');
