@@ -7,6 +7,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use Illuminate\Http\Request;
+
 class KeyController extends Controller
 {
     public function gerar() {
@@ -41,6 +43,18 @@ class KeyController extends Controller
         $texto = $request->input('texto');
         $privKey = $request->input('privKey');
 
-        /* openssl_sign($str, $sig, $privKey, OPENSSL_ALGO_SHA256); */
+        /* die($privKey); */
+
+        openssl_sign($texto, $sig, $privKey, OPENSSL_ALGO_SHA256);
+        return bin2hex($sig);
+    }
+
+    public function verificar(Request $request) {
+        $data = $request->input('text');
+        $pubKey = $request->input('pubKey');
+        $assinatura = $request->input('assinatura');
+
+        $ok = openssl_verify($data, hex2bin($assinatura), $pubKey, OPENSSL_ALGO_SHA256);
+        return $ok == 1 ? 'good' : 'bad';
     }
 }
